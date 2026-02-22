@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ポモドーロタイマー</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+  <div class="container">
+    <!-- ヘッダー -->
+    <header class="header">
+      <h1>🍅 ポモドーロタイマー</h1>
+      <div class="level-badge">
+        <span id="level-label">Lv.1</span>
+        <div class="xp-bar">
+          <div class="xp-bar-fill" id="xp-bar-fill"></div>
+        </div>
+        <span id="xp-label">0 / 100 XP</span>
+      </div>
+    </header>
+
+    <div class="main-grid">
+      <!-- タイマーセクション -->
+      <section class="timer-section card">
+        <div class="timer-mode-tabs">
+          <button class="mode-btn active" data-minutes="25">ポモドーロ</button>
+          <button class="mode-btn" data-minutes="5">短い休憩</button>
+          <button class="mode-btn" data-minutes="15">長い休憩</button>
+        </div>
+        <div class="timer-display" id="timer-display">25:00</div>
+        <div class="timer-controls">
+          <button class="btn btn-primary" id="start-btn">開始</button>
+          <button class="btn btn-secondary" id="reset-btn">リセット</button>
+        </div>
+        <div class="streak-display">
+          <span class="streak-icon">🔥</span>
+          <span id="streak-count">0</span>
+          <span>日連続</span>
+        </div>
+      </section>
+
+      <!-- 統計サマリー -->
+      <section class="stats-summary card">
+        <h2>📊 統計</h2>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-value" id="stat-today">0</div>
+            <div class="stat-label">今日</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value" id="stat-week">0</div>
+            <div class="stat-label">今週</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value" id="stat-month">0</div>
+            <div class="stat-label">今月</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value" id="stat-total">0</div>
+            <div class="stat-label">合計</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- バッジセクション -->
+      <section class="badges-section card">
+        <h2>🏅 バッジ</h2>
+        <div class="badges-grid" id="badges-grid">
+          <!-- JSで動的生成 -->
+        </div>
+      </section>
+
+      <!-- グラフセクション -->
+      <section class="charts-section card">
+        <h2>📈 グラフ</h2>
+        <div class="chart-tabs">
+          <button class="chart-tab active" data-chart="weekly">週間</button>
+          <button class="chart-tab" data-chart="monthly">月間</button>
+        </div>
+        <div class="chart-container">
+          <canvas id="stats-chart"></canvas>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- バッジ獲得通知 -->
+  <div class="badge-notification" id="badge-notification" style="display:none;">
+    <div class="badge-notification-inner">
+      <div class="badge-notification-icon" id="notif-icon"></div>
+      <div class="badge-notification-text">
+        <div class="badge-notification-title">バッジ獲得！</div>
+        <div id="notif-name"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
