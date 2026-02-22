@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ポモドーロタイマー</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="theme-dark">
+    <div class="container">
+        <header>
+            <h1>🍅 ポモドーロタイマー</h1>
+        </header>
+        
+        <main>
+            <!-- タイマー表示 -->
+            <div class="timer-display">
+                <div class="timer-circle">
+                    <svg class="progress-ring" width="300" height="300">
+                        <circle class="progress-ring-circle" stroke-width="8" fill="transparent" r="140" cx="150" cy="150"/>
+                    </svg>
+                    <div class="timer-text">
+                        <div id="timer">25:00</div>
+                        <div id="mode" class="mode-text">作業時間</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- コントロールボタン -->
+            <div class="controls">
+                <button id="startBtn" class="btn btn-primary">スタート</button>
+                <button id="pauseBtn" class="btn btn-secondary" disabled>ポーズ</button>
+                <button id="resetBtn" class="btn btn-danger">リセット</button>
+            </div>
+            
+            <!-- 設定パネル -->
+            <div class="settings-panel">
+                <h2>⚙️ 設定</h2>
+                
+                <div class="setting-group">
+                    <label for="workMinutes">作業時間（分）</label>
+                    <select id="workMinutes" class="form-control">
+                        <option value="15">15分</option>
+                        <option value="25" selected>25分</option>
+                        <option value="35">35分</option>
+                        <option value="45">45分</option>
+                    </select>
+                </div>
+                
+                <div class="setting-group">
+                    <label for="breakMinutes">休憩時間（分）</label>
+                    <select id="breakMinutes" class="form-control">
+                        <option value="5" selected>5分</option>
+                        <option value="10">10分</option>
+                        <option value="15">15分</option>
+                    </select>
+                </div>
+                
+                <div class="setting-group">
+                    <label for="theme">テーマ</label>
+                    <select id="theme" class="form-control">
+                        <option value="dark" selected>ダーク</option>
+                        <option value="light">ライト</option>
+                        <option value="focus">フォーカス（ミニマル）</option>
+                    </select>
+                </div>
+                
+                <div class="setting-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="soundStart" checked>
+                        開始音
+                    </label>
+                </div>
+                
+                <div class="setting-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="soundEnd" checked>
+                        終了音
+                    </label>
+                </div>
+                
+                <div class="setting-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="soundTick">
+                        チック音
+                    </label>
+                </div>
+                
+                <button id="saveSettings" class="btn btn-success">設定を保存</button>
+            </div>
+        </main>
+    </div>
+    
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
