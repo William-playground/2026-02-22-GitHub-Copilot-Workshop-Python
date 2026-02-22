@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ポモドーロタイマー</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+  <!-- パーティクル背景キャンバス -->
+  <canvas id="particleCanvas"></canvas>
+
+  <div class="container">
+    <h1 class="title">🍅 ポモドーロタイマー</h1>
+
+    <!-- セッション種別タブ -->
+    <div class="mode-tabs">
+      <button class="mode-btn active" data-mode="work" data-minutes="25">集中</button>
+      <button class="mode-btn" data-mode="short" data-minutes="5">短休憩</button>
+      <button class="mode-btn" data-mode="long" data-minutes="15">長休憩</button>
+    </div>
+
+    <!-- 円形プログレスバー -->
+    <div class="timer-wrapper">
+      <svg class="progress-ring" viewBox="0 0 220 220" width="220" height="220">
+        <!-- 背景トラック -->
+        <circle class="track" cx="110" cy="110" r="96" />
+        <!-- プログレスバー -->
+        <circle
+          id="progressCircle"
+          class="progress"
+          cx="110"
+          cy="110"
+          r="96"
+        />
+      </svg>
+
+      <!-- 残り時間表示 -->
+      <div class="timer-display">
+        <span id="timeDisplay">25:00</span>
+        <div id="sessionLabel" class="session-label">集中タイム</div>
+      </div>
+    </div>
+
+    <!-- コントロールボタン -->
+    <div class="controls">
+      <button id="startBtn" class="btn btn-start">▶ スタート</button>
+      <button id="resetBtn" class="btn btn-reset">↺ リセット</button>
+    </div>
+
+    <!-- ポモドーロカウント -->
+    <div class="pomodoro-count">
+      <span id="pomodoroCount">0</span> / 4 ポモドーロ完了
+    </div>
+  </div>
+
+  <!-- 波紋エフェクト用オーバーレイ -->
+  <div id="rippleOverlay"></div>
+
+  <script src="{{ url_for('static', filename='js/timer.js') }}"></script>
+</body>
+</html>

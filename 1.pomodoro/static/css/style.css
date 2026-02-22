@@ -1,0 +1,248 @@
+/* =============================
+   ポモドーロタイマー スタイルシート
+   ============================= */
+
+:root {
+  --color-blue:   #2196F3;
+  --color-yellow: #FFC107;
+  --color-red:    #F44336;
+  --progress-color: var(--color-blue);
+  --bg-dark:  #1a1a2e;
+  --bg-mid:   #16213e;
+  --text-main: #eaeaea;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-mid) 100%);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ---- パーティクルキャンバス ---- */
+#particleCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+#particleCanvas.active {
+  opacity: 1;
+}
+
+/* ---- 波紋オーバーレイ ---- */
+#rippleOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: rippleAnim 1.8s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes rippleAnim {
+  to {
+    transform: scale(6);
+    opacity: 0;
+  }
+}
+
+/* ---- メインコンテナ ---- */
+.container {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 40px 32px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* ---- タイトル ---- */
+.title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(33, 150, 243, 0.5);
+}
+
+/* ---- モードタブ ---- */
+.mode-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.mode-btn {
+  padding: 8px 20px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.mode-btn:hover {
+  border-color: var(--progress-color);
+  color: #fff;
+}
+
+.mode-btn.active {
+  background: var(--progress-color);
+  border-color: var(--progress-color);
+  color: #fff;
+  box-shadow: 0 0 16px rgba(33, 150, 243, 0.5);
+}
+
+/* ---- タイマー (SVG + 時間表示) ---- */
+.timer-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  height: 220px;
+}
+
+/* SVG円形プログレスバー */
+.progress-ring {
+  transform: rotate(-90deg);
+}
+
+.track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 10;
+}
+
+.progress {
+  fill: none;
+  stroke: var(--progress-color);
+  stroke-width: 10;
+  stroke-linecap: round;
+  /* stroke-dasharray / stroke-dashoffset はJSで動的にセット */
+  transition: stroke-dashoffset 1s linear, stroke 0.8s ease;
+  filter: drop-shadow(0 0 8px var(--progress-color));
+}
+
+/* ---- 時間表示 ---- */
+.timer-display {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+#timeDisplay {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.session-label {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ---- コントロールボタン ---- */
+.controls {
+  display: flex;
+  gap: 16px;
+}
+
+.btn {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-start {
+  background: var(--progress-color);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(33, 150, 243, 0.4);
+}
+
+.btn-start:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(33, 150, 243, 0.6);
+}
+
+.btn-start.paused {
+  background: #4caf50;
+  box-shadow: 0 4px 20px rgba(76, 175, 80, 0.4);
+}
+
+.btn-reset {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-reset:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* ---- ポモドーロカウント ---- */
+.pomodoro-count {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.05em;
+}
+
+#pomodoroCount {
+  font-weight: 700;
+  color: #fff;
+}
+
+/* ---- 完了パルスアニメーション ---- */
+@keyframes completePulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.08); }
+}
+
+.timer-wrapper.pulse {
+  animation: completePulse 0.5s ease 3;
+}
